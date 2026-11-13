@@ -28,6 +28,6 @@ def main():
    title=p.meta.get("exam-title") or " ".join(p.parts).strip() or re.sub(r"[-_]+"," ",f.stem).title()
    exams.append({"grade":int(m.group(1)),"category":parts[0] if len(parts)>1 else "khac","title":title,"school":p.meta.get("school",""),"location":p.meta.get("location",""),"year":p.meta.get("school-year",""),"path":rel})
  exams.sort(key=lambda x:(x["grade"],x["category"],x["year"],x["title"].casefold()))
- (ROOT/"catalog.json").(ROOT/"catalog.json").write_text(json.dumps({"exam_count":len(exams),"exams":exams},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+ (ROOT/"catalog.json").write_text(json.dumps({"exam_count":len(exams),"exams":exams},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  print(f"Đã tạo danh mục gồm {len(exams)} đề.")
 if __name__=="__main__":main()
