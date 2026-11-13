@@ -17,7 +17,7 @@ class P(HTMLParser):
 def main():
  exams=[]
  for gd in sorted(ROOT.glob("lop[0-9]*")):
-  m=re.fullmatch(r"lop(\\d+)",gd.name)
+  m=re.fullmatch(r"lop(\d+)",gd.name)
   if not m:continue
   for f in sorted(gd.rglob("*.html")):
    if f.name.lower()=="index.html":continue
