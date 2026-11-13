@@ -1,4 +1,33 @@
+
 {
-  "exam_count": 0,
-  "exams": []
+  "exam_count": 3,
+  "exams": [
+    {
+      "grade": 10,
+      "category": "on-tap-hk1",
+      "title": "Đề ôn tập Toán 10 học kỳ 1",
+      "school": "Trường THPT A",
+      "location": "Cần Thơ",
+      "year": "2026-2027",
+      "path": "lop10/on-tap-hk1/de-on-tap-01.html"
+    },
+    {
+      "grade": 11,
+      "category": "on-tap-hk2",
+      "title": "Đề ôn tập Toán 11 học kỳ 2",
+      "school": "Trường THPT B",
+      "location": "Cần Thơ",
+      "year": "2026-2027",
+      "path": "lop11/on-tap-hk2/de-on-tap-02.html"
+    },
+    {
+      "grade": 12,
+      "category": "on-thi-tot-nghiep",
+      "title": "Đề luyện thi tốt nghiệp THPT",
+      "school": "Trường THPT C",
+      "location": "Cần Thơ",
+      "year": "2026-2027",
+      "path": "lop12/on-thi-tot-nghiep/de-on-tap-03.html"
+    }
+  ]
 }
