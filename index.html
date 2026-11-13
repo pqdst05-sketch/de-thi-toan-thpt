@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thư viện Toán THPT</title>
+<style>
+:root{--blue:#2458c6;--green:#287b6d;--line:#dfe3e8}*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f8fb;color:#202124}
+header{text-align:center;background:white;padding:30px 14px;border-bottom:1px solid var(--line)}
+h1{margin:0;color:#376f94;font-family:Georgia,serif;font-size:clamp(25px,5vw,38px)}
+header p{color:#687078;margin:8px 0 0}main{max-width:960px;margin:auto;padding:20px 14px 45px}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.nav a{text-align:center;text-decoration:none;padding:14px 8px;border-radius:12px;font-weight:bold;background:#eaf2fb;color:#2458a0}
+.nav a:last-child{background:#fff1db;color:#925b0b}
+.tools{display:grid;grid-template-columns:1fr;gap:10px}
+input,select{width:100%;min-height:45px;padding:10px 12px;border:1px solid #cfd3d8;border-radius:11px;font-size:16px;background:white}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 22px}
+.grade{padding:11px 4px;border:1px solid #d7e2ef;border-radius:11px;background:#eaf2fb;color:#2458a0;font-weight:bold}
+.grade.active{background:#2458c6;color:white}
+.section{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:3px solid var(--green);padding-bottom:9px;margin:22px 0 10px}
+.section h2{font-size:20px;color:var(--green);margin:0}.count{font-size:12px;color:#60666d;background:#eceff1;padding:4px 9px;border-radius:20px}
+h3{font-size:16px;margin:16px 0 8px}.exam{display:flex;gap:12px;align-items:center;padding:14px;background:white;border:1px solid var(--line);border-left:5px solid #858b91;border-radius:12px;margin:8px 0;text-decoration:none;color:var(--blue)}
+.meta{display:block;color:#687078;font-size:12px;margin-top:4px}.empty{text-align:center;padding:25px;background:white;border:1px dashed var(--line);border-radius:12px;color:#687078}
+@media(min-width:650px){.tools{grid-template-columns:1fr 230px}}
+</style></head><body>
+<header><h1>THƯ VIỆN TOÁN THPT</h1><p>Đề thi · Luyện tập · Game Toán học</p></header>
+<main>
+<nav class="nav"><a href="./">📚 THƯ VIỆN ĐỀ THI</a><a href="games/">🎮 THẾ GIỚI GAME</a></nav>
+<div class="tools"><input id="search" type="search" placeholder="Tìm tên đề, trường, địa phương..."><select id="category"><option value="">Tất cả chuyên mục</option><option value="on-tap-hk1">Ôn tập học kỳ 1</option><option value="on-tap-hk2">Ôn tập học kỳ 2</option><option value="on-thi-tot-nghiep">Ôn thi tốt nghiệp</option></select></div>
+<div class="grades"><button class="grade active" data-grade="">Tất cả</button><button class="grade" data-grade="10">Lớp 10</button><button class="grade" data-grade="11">Lớp 11</button><button class="grade" data-grade="12">Lớp 12</button></div>
+<div id="content"><div class="empty">Đang tải danh sách đề...</div></div>
+</main>
+<script>
+(()=>{const root=document.getElementById('content'),search=document.getElementById('search'),cat=document.getElementById('category');let grade='',exams=[];
+const labels={'on-tap-hk1':'Ôn tập học kỳ 1','on-tap-hk2':'Ôn tập học kỳ 2','on-thi-tot-nghiep':'Ôn thi tốt nghiệp'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(){let q=search.value.trim().toLocaleLowerCase('vi');let rows=exams.filter(e=>(!grade||String(e.grade)===grade)&&(!cat.value||e.category===cat.value)&&(!q||[e.title,e.school,e.location,e.path].join(' ').toLocaleLowerCase('vi').includes(q)));
+if(!rows.length){root.innerHTML='<div class="empty">Chưa tìm thấy đề phù hợp.</div>';return}
+let groups=new Map();rows.forEach(e=>{let k=e.grade+'|'+e.category;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(e)});root.innerHTML='';
+for(let [k,items] of groups){let [g,c]=k.split('|'),sec=document.createElement('section');sec.innerHTML=`<div class="section"><h2>📚 ${esc(labels[c]||c)} lớp ${g}</h2><span class="count">${items.length} đề</span></div>`;
+let years=new Map();items.forEach(e=>{let y=e.year||'Các đề khác';if(!years.has(y))years.set(y,[]);years.get(y).push(e)});
+for(let [y,list] of years){let h=document.createElement('h3');h.textContent='📁 '+y;sec.append(h);list.forEach(e=>{let a=document.createElement('a');a.className='exam';a.href=e.path;a.innerHTML=`<span>📄</span><span>${esc(e.title)}${e.school||e.location?`<span class="meta">${esc([e.school,e.location].filter(Boolean).join(' · '))}</span>`:''}</span><span>›</span>`;sec.append(a)})}root.append(sec)}}
+fetch('./catalog.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{exams=d.exams||[];render()}).catch(()=>root.innerHTML='<div class="empty">Chưa tải được danh mục. Kiểm tra GitHub Actions và catalog.json.</div>');
+search.addEventListener('input',render);cat.addEventListener('change',render);document.querySelectorAll('.grade').forEach(b=>b.addEventListener('click',()=>{grade=b.dataset.grade;document.querySelectorAll('.grade').forEach(x=>x.classList.toggle('active',x===b));render()}));
+})();
+</script></body></html>
