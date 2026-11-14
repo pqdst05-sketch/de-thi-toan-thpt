@@ -13,7 +13,7 @@
 2. Upload toàn bộ nội dung thư mục này lên nhánh `main`, giữ nguyên thư mục `.github`.
 3. Vào Settings → Pages → Build and deployment → Source, chọn **GitHub Actions**.
 4. Vào Actions, chờ workflow chạy thành công.
-5. Website có địa chỉ dạng `https://TEN-TAI-KHOAN.github.io/de-thi-toan-thpt/`.
+5. Website có địa chỉ dạng `https://TEN-TAI-KHOAN.github.io/On_tap-toan-THPT/`.
 
 ## Thêm đề thi
 Đưa file HTML vào đúng thư mục, ví dụ `lop10/on-tap-hk1/`. Mỗi lần push lên `main`, workflow quét lại và cập nhật danh mục. Không sửa `index.html` hay `catalog.json`.
